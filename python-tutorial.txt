@@ -1,0 +1,328 @@
+## Copyright (c) Gene Cooperman, 2012
+## You may freely copy, modify, and distribute this as along as the copyright
+## notice remains.  If you have improvements, please mail them back.
+
+
+# The comment character is: #
+# Note that Python use ':' and indentation instead of '{' '}' from C/Java
+for x in (3,4,5):
+  print x
+# end for
+
+for x in [3,5,7]:
+  print x
+# end for
+
+# *** NOTE:  If you cut-and-paste into an interactive session of Python,
+# ***        you will need to past or type the final 'newline'.
+# ***        If you write this in a Python program, you can omit
+# ***        both "# end for" and the following newline.
+
+# *** Strings can use single-quote or double-quote
+print "abc" == 'abc'
+print '"quoted string" inside a string'
+
+# *** These are Python's most common types.  (You can't cut=and-past this part.)
+TYPE    FALSE    EXAMPLES
+boolean    False  True False
+integer    0      5 7 123456789012345678901234567689
+float      0.0    1.3  3.14
+string     ""     "abc"         [ immutable: can never be modified ]
+list       []     [3, 'a']   [[1,2],[3,4,5]]
+tuple      ()     (x,) (x,y,z)  [ immutable: can never be modified ]
+set        set()  set([3,'a'])  set([4,5,4,6])  [ duplicate '4' will be removed]
+Dictionary {}     {'mon': 1, 'tues': 2, 'wed': 3}
+anyType    None
+
+# *** Playing with data objects (boolean):
+print True and False
+print True or False
+if True:
+  print "is true"
+else:
+  print "is false"
+# end if
+
+# *** Playing with data objects (integer):
+x = 3
+y = x + 4.5
+print 3 < 4
+print 3 >= 4
+x = 0.0
+if x:
+  print True
+else:
+  print False
+# end if
+
+print int(3.5)
+print float(3)
+
+# *** Playing with data objects (list):
+print [3,4,5]+[13,14,15]
+x = ['a', 'b', 'c'] + ['d', 'e', 'f']
+print x[0]
+print len(x)
+print x[1:4]
+print x[1:]
+print x[:4]
+print len(x[1:4]) == 4-1
+print x[0:3] + x[4:len(x)]
+del x[2:4]
+print x
+print 'e' in x
+x = []
+if x:
+  print True
+else:
+  print False
+# end if
+
+print list("abcdef")
+
+# *** Playing with data objects (string):
+print "abcdef"
+x = 'abcdef'
+print x[1:4]
+print len(x[1:4]) == 4-1
+print x[0:3] + x[4:len(x)]
+print 'e' in x
+x = ""
+if x:
+  print True
+else:
+  print False
+# end if
+
+x = str([ "d"   ])
+print x
+print len(x)
+print "abc"+x+"def"
+
+# *** Playing with data objects (tuple):
+print (3,4,5)
+(x,y,z) = (3,4,5)
+print y
+print (x,z)
+print (x,)
+print len( (x,) )
+print (x)
+a = (x,y,z)
+print len(a)
+print a[1:]
+print a+('p', 'q', 'r', 's', 't')
+x = ()
+if x:
+  print True
+else:
+  print False
+# end if
+
+print tuple(['a', 'b', 'c'])
+
+# *** Playing with data objects (dictionary/hash table):
+x = {'mon': 1, 'tues': 2, 'wed': 3, 'thur': 4, 'fri': 5}
+print x
+print x["wed"]
+del x["wed"]
+print x
+print len(x)
+print x.keys()
+print x.values()
+x = {}
+if x:
+  print True
+else:
+  print False
+# end if
+
+print dict( [('mon', 1), ('tues', 2), ('wed', 3), ('thur', 4), ('fri', 5)] )
+
+# *** Getting help:
+help(1)
+help(1.0)
+help("len")
+print str
+help(str)
+help([1])
+x = [1]
+x.append([2,3,4])
+print x
+print [1].append
+help([1].append)
+help(('a',5))
+help({'a': 5})
+help({})
+
+# *** Playing with programming constructs:
+for i in range(3,5):
+  print i
+# end for
+
+for i in range(3):
+  print i
+# end for
+
+print range(3)
+x = 5
+while x:
+  x = x - 1
+  print x
+# end while
+
+# *** Playing with functions:
+def foo():
+  return 5
+# end def
+
+print foo()
+def foo(begin=0, end=5, size=None):
+  if not size:
+    size = end-begin
+  return size
+# end def
+
+print foo()
+print foo(begin=3)
+print foo(size=7)
+def mytuple(*myargs):
+  return myargs
+# end def
+
+(x,y,z) = mytuple(3,4,5)
+print y
+print mytuple(3,4,5,6)
+import math
+def average(*ints):
+  print math.fsum(ints)/len(ints)
+# end def
+
+average(3,4,5,6)
+
+# *** Playing with file objects:
+file = open('/etc/passwd')
+passwd = file.readlines()
+file.close()
+
+# *** Playing with URL pages:
+import urllib2
+response = urllib2.urlopen("http://google.com")
+html = response.readlines()
+print html[:6]
+print '\n'.join(html[:6])
+def display(html):
+  file = open('/tmp/tmp1.html', 'w')
+  file.writelines(html)
+  file.close()
+  import os
+  os.system('lynx --dump /tmp/tmp1.html | less')
+# end def
+
+display(html)
+
+
+import urllib
+import urllib2
+url = 'http://united.com/'
+# After using search button, to see 'flight search' url:
+url = 'http://www.united.com/web/en-US/apps/booking/flight/searchRT.aspx'
+values = {'ctl00$ContentInfo$SearchForm$Airports1$Origin$txtOrigin' :
+		 'BOS'
+	}
+data = urllib.urlencode(values)
+req = urllib2.Request(url, data, { 'User-Agent' : "Firefox/3.6.17 (X11; U; Linux i686)" })
+response = urllib2.urlopen(req)
+html = response.readlines()
+
+
+# *** Playing with classes:
+class Incrementor:
+  "This class has one method:  increment"
+  def __init__(self, n):
+    self.n = n  # self.n is an instance variable.  It is initialized here.
+  def increment(self, x, incr=None):
+    "This increment method of Increment takes one or two arguments: (x, incr)"
+    self.n = incr or self.n
+    incr = self.n
+    return x+incr
+# end class
+
+object = Incrementor(2)
+object.increment(3)
+object.increment(3,4)
+object.increment(3)
+help(object.increment)
+help(Incrementor)
+
+
+# *** Playing with lambda functions:
+x = lambda x, y=1: x+y
+x(3,4)
+x(3)
+def make_incrementor(n):
+  return lambda x, incr=n: x+incr
+# end def
+
+x = make_incrementor(2)
+x(3)
+x(3,4)
+x(3)
+
+
+# *** An Extended Example
+sentence = "The quick brown fox jumps over the lazy dog."
+print set(sentence)   # NOTE:  a set cannot have duplicate elements.
+print set(sentence.lower())
+# The single line below is the one that does all the work.
+chars = filter(lambda x: x.isalpha(),   set(sentence.lower()))
+print '  ', len(chars), ' characters:  ', chars
+# NOTE:  This use of 'filter' is specific to Python 2.x
+
+# This doesn't use 'filter'
+sentence = "The quick brown fox jumps over the lazy dog."
+print [ char for char in sentence.lower() if char.isalpha() ]
+chars = set( [ char for char in sentence.lower() if char.isalpha() ] )
+print '  ', len(chars), ' characters:  ', chars
+
+# This doesn't use the 'filter' or the type 'set'
+sentence = "The quick brown fox jumps over the lazy dog."
+chars = sorted(sentence.lower())
+for i in reversed(range(len(chars))):
+  if not chars[i].isalpha():
+    del chars[i]
+  if chars[i] == chars[i-1]:
+    del chars[i]  # delete duplicate char
+# end for
+
+print '  ', len(chars), ' characters:  ', chars
+
+# Here's a longer way that demonstrates regular expressions ("re") and a dict.
+sentence = "The quick brown fox jumps over the lazy dog."
+import re
+print sentence.lower().strip('.')
+print re.findall("\w+", sentence.lower().strip('.'))
+letters = ''.join(sentence.lower().strip('.').split())
+print letters
+chars = {}
+for x in letters:
+  if chars.has_key(x):
+    chars[x] = chars[x] + 1
+  else:
+    chars[x] = 1
+# end for
+
+print '  ', len(chars), ' characters:  ', chars
+
+# *** Another Extended Example
+# Delete previous vim processes editing /etc/passwd.
+# Try printing subexpressions from below in Python to see how it works.
+import subprocess
+import os
+os.system("ps -u $USER -o 'pid,command'")
+ps = subprocess.Popen(['ps', '-u', os.environ['USER'], '-o', 'pid,command'],
+                      stdout=subprocess.PIPE).communicate()[0]
+vimCommand = "vim" + " /etc/passwd"
+for row in ps.split('\n')[1:]:
+  cmd = row.split(None, 1) # maxsplit=1
+  if cmd and cmd[1] == vimCommand: # last cmd is '', but this acts like False
+    os.kill(int(cmd[0]), signal.SIGKILL)
