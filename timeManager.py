@@ -4,10 +4,13 @@
 import sys
 import os
 import re
+import time
 import json
 
 #global variables
+level = None
 calendar = None
+localtime = time.asctime( time.localtime(time.time()) )
 
 ## Structure of the calendar
 class Event:
@@ -32,6 +35,8 @@ class Calendar:
 def timeManager():
 	ensure("Data")
 	while(1):
+		global localtime
+		localtime = time.asctime( time.localtime(time.time()) )
 		print 'TimeManager:$ ',
 		myinput = sys.stdin
 		argv = getargs(myinput.readline())
@@ -70,7 +75,7 @@ def execute(argv):
 		print ' '.join(argv[1:])
 	else:
 		print "Unknown command '" + argv[0] + "'"
-		print "Type help for more information."
+		print "Type 'help' for more information."
 #end of execute
 
 def exit():
@@ -94,8 +99,13 @@ def showCalendars():
 #end of showCalendar
 
 def listItems():	
-	for days in calendar.days:
-		print days
+	if not calendar:
+		print "You need to access a calendar first."
+		print "Type 'help' for more information."
+	else:
+		availableEvents = []
+		for event in calendar.events:
+			if event.date 
 
 def switchTo(argv):
 	if len(argv) < 2:
