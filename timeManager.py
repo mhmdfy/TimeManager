@@ -29,6 +29,16 @@ class Calendar:
 #end of Calendar
 
 ## Shell functionality
+def timeManager():
+	ensure("Data")
+	while(1):
+		print 'TimeManager:$ ',
+		myinput = sys.stdin
+		argv = getargs(myinput.readline())
+		if len(argv) != 0:
+			execute(argv)
+#end of timeManager
+
 def ensure(path):
 	if not os.path.exists(path):
 		print 'Directory does not exist'
@@ -48,14 +58,19 @@ def getargs(argv):
 def execute(argv):
 	if argv[0] == 'exit' or argv[0] == 'logout' or argv[0] == 'quit':
 		exit()
-	elif argv[0] == 'echo':
-		print ' '.join(argv[1:])
+	elif argv[0] == 'help':
+		help()
+	elif argv[0] == 'show':
+		showCalendars()
 	elif argv[0] == 'ls':
 		listItems()
 	elif argv[0] == 'use':
 		switchTo(argv)
+	elif argv[0] == 'echo':
+		print ' '.join(argv[1:])
 	else:
 		print "Unknown command '" + argv[0] + "'"
+		print "Type help for more information."
 #end of execute
 
 def exit():
@@ -63,14 +78,24 @@ def exit():
 	sys.exit()
 #end of exit
 
-def listItems():
-	if calendar == None:
-		for files in os.listdir("./Data"):
-			if files.endswith(".cal"):
-				print files[:len(files)-4]
-	else:
-		for days in calendar.days:
-			print days
+def help():
+	print "Known commands:"
+	print "'show' shows the list of available calendars."
+	print "'use (cal-name)' access the calendar by its name."
+	print "'ls [name]' list the current events in the day, or the days in the week."
+	print "'cd (name)' access day/week/month by name."
+	print "'create (event-name) [date]' create an event on the specified date."
+#end of help
+
+def showCalendars():
+	for files in os.listdir("./Data"):
+		if files.endswith(".cal"):
+			print files[:len(files)-4]
+#end of showCalendar
+
+def listItems():	
+	for days in calendar.days:
+		print days
 
 def switchTo(argv):
 	if len(argv) < 2:
@@ -79,16 +104,6 @@ def switchTo(argv):
 		global calendar
 		calendar = Calendar(argv[1])
 #end of switchTo
-
-def timeManager():
-	ensure("Data")
-	while(1):
-		print 'TimeManager:$ ',
-		myinput = sys.stdin
-		argv = getargs(myinput.readline())
-		if len(argv) != 0:
-			execute(argv)
-#end of timeManager()
 
 #call timeManager()
 timeManager()
