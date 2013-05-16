@@ -9,8 +9,8 @@ import json
 #global variables
 calendar = None
 
+## Structure of the calendar
 class Event:
-
 	def __init__(self, name, desc, time, date):
 		self.name = name
 		self.desc = desc
@@ -28,6 +28,7 @@ class Calendar:
 		self.events.append(event)
 #end of Calendar
 
+## Shell functionality
 def ensure(path):
 	if not os.path.exists(path):
 		print 'Directory does not exist'
